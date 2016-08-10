@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context crossContext="true" reloadable="true">
+	<Resource name="jdbc/autopark" auth="Container" type="javax.sql.DataSource"
+		username="root" password="161acid161" driverClassName="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://localhost:3306/autopark" maxActive="15" maxIdle="3" />
+	<ResourceLink name="jdbc/autopark" global="jdbc/autopark"
+
+		type="javax.sql.DataSource" />
+
+</Context>
+
