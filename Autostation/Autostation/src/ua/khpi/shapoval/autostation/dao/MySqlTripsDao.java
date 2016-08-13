@@ -52,16 +52,7 @@ public class MySqlTripsDao implements TripsDao {
 
 				return null;
 			} finally {
-				try {
-					if (stmt != null) {
-						stmt.close();
-					}
-					if (connection != null) {
-						connection.close();
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
+				DbConnector.close(connection, stmt);
 			}
 		} else {
 			return null;
@@ -89,16 +80,7 @@ public class MySqlTripsDao implements TripsDao {
 				System.err.println(e.getMessage());
 				return 0;
 			} finally {
-				try {
-					if (stmt != null) {
-						stmt.close();
-					}
-					if (connection != null) {
-						connection.close();
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
+				DbConnector.close(connection, stmt);
 			}
 		} else {
 			return 0;
@@ -125,16 +107,7 @@ public class MySqlTripsDao implements TripsDao {
 				System.err.println(e.getMessage());
 				return 0;
 			} finally {
-				try {
-					if (stmt != null) {
-						stmt.close();
-					}
-					if (connection != null) {
-						connection.close();
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
+				DbConnector.close(connection, stmt);
 			}
 		}
 		return 0;
@@ -162,17 +135,7 @@ public class MySqlTripsDao implements TripsDao {
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		} finally {
-			try {
-				if (stmt != null) {
-					stmt.close();
-				}
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+			DbConnector.close(connection, stmt, rs);
 		}
 		return allTrips;
 
@@ -200,17 +163,7 @@ public class MySqlTripsDao implements TripsDao {
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		} finally {
-			try {
-				if (stmt != null) {
-					stmt.close();
-				}
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+			DbConnector.close(connection, stmt, rs);
 		}
 		return allTrips;
 
@@ -239,17 +192,7 @@ public class MySqlTripsDao implements TripsDao {
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		} finally {
-			try {
-				if (stmt != null) {
-					stmt.close();
-				}
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+			DbConnector.close(connection, stmt, rs);
 		}
 		return allTrips;
 
@@ -279,17 +222,7 @@ public class MySqlTripsDao implements TripsDao {
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		} finally {
-			try {
-				if (stmt != null) {
-					stmt.close();
-				}
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+			DbConnector.close(connection, stmt, rs);
 		}
 		return allTrips;
 
@@ -318,17 +251,7 @@ public class MySqlTripsDao implements TripsDao {
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		} finally {
-			try {
-				if (stmt != null) {
-					stmt.close();
-				}
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+			DbConnector.close(connection, stmt, rs);
 		}
 		return allTrips;
 
@@ -352,21 +275,10 @@ public class MySqlTripsDao implements TripsDao {
 			while (rs.next()) {
 				allOpenTrips.add(buildTripObject(rs));
 			}
-
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		} finally {
-			try {
-				if (stmt != null) {
-					stmt.close();
-				}
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+			DbConnector.close(connection, stmt, rs);
 		}
 		return allOpenTrips;
 
@@ -376,13 +288,13 @@ public class MySqlTripsDao implements TripsDao {
 
 		int index = 1;
 		try {
-			preparedStatement.setDate(1, trip.getStartDate());
-			preparedStatement.setString(2, trip.getFromPlace());
-			preparedStatement.setString(3, trip.getToPlace());
-			preparedStatement.setString(4, trip.getStatusTrip().toString().toUpperCase());
-			preparedStatement.setInt(5, trip.getIdCreator());
+			preparedStatement.setDate(index, trip.getStartDate());
+			preparedStatement.setString(index++, trip.getFromPlace());
+			preparedStatement.setString(index++, trip.getToPlace());
+			preparedStatement.setString(index++, trip.getStatusTrip().toString().toUpperCase());
+			preparedStatement.setInt(index++, trip.getIdCreator());
 			if (trip.getIdTrip() != 0) {
-				preparedStatement.setInt(6, trip.getIdTrip());
+				preparedStatement.setInt(index++, trip.getIdTrip());
 
 			}
 

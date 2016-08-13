@@ -49,16 +49,7 @@ public class MySqlRequestsDao implements RequestsDao {
 
 				return null;
 			} finally {
-				try {
-					if (stmt != null) {
-						stmt.close();
-					}
-					if (connection != null) {
-						connection.close();
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
+				DbConnector.close(connection, stmt);
 			}
 		} else {
 			return null;
@@ -86,16 +77,7 @@ public class MySqlRequestsDao implements RequestsDao {
 				System.err.println(e.getMessage());
 				return 0;
 			} finally {
-				try {
-					if (stmt != null) {
-						stmt.close();
-					}
-					if (connection != null) {
-						connection.close();
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
+				DbConnector.close(connection, stmt);
 			}
 		} else {
 			return 0;
@@ -122,16 +104,7 @@ public class MySqlRequestsDao implements RequestsDao {
 				System.err.println(e.getMessage());
 				return 0;
 			} finally {
-				try {
-					if (stmt != null) {
-						stmt.close();
-					}
-					if (connection != null) {
-						connection.close();
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
+				DbConnector.close(connection, stmt);
 			}
 		} else {
 			return 0;
@@ -161,17 +134,7 @@ public class MySqlRequestsDao implements RequestsDao {
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		} finally {
-			try {
-				if (stmt != null) {
-					stmt.close();
-				}
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+			DbConnector.close(connection, stmt, rs);
 		}
 		return allRequests;
 
@@ -201,17 +164,7 @@ public class MySqlRequestsDao implements RequestsDao {
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		} finally {
-			try {
-				if (stmt != null) {
-					stmt.close();
-				}
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+			DbConnector.close(connection, stmt, rs);
 		}
 		return allRequests;
 
@@ -233,16 +186,16 @@ public class MySqlRequestsDao implements RequestsDao {
 	}
 
 	private Requests buildRequest(ResultSet rs) {
-		try{
-		Requests request = new Requests();
-		request.setIdRequest(rs.getInt(1));
-		request.setIdUserReq(rs.getInt(2));
-		request.setIdCarReq(rs.getInt(3));
-		request.setIdTripReq(rs.getInt(4));
-		request.setIdStatusReq(rs.getInt(5));
-		return request;
-		} catch(SQLException e){
-			
+		try {
+			Requests request = new Requests();
+			request.setIdRequest(rs.getInt(1));
+			request.setIdUserReq(rs.getInt(2));
+			request.setIdCarReq(rs.getInt(3));
+			request.setIdTripReq(rs.getInt(4));
+			request.setIdStatusReq(rs.getInt(5));
+			return request;
+		} catch (SQLException e) {
+
 		}
 		return null;
 	}

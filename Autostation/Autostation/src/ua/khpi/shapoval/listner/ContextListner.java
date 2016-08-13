@@ -11,6 +11,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.ServletException;
 
+import ua.khpi.shapoval.autostation.command.CommandContainer;
 import ua.khpi.shapoval.autostation.dao.CarsDao;
 import ua.khpi.shapoval.autostation.dao.MySqlCarsDao;
 import ua.khpi.shapoval.autostation.dao.MySqlRequestStatusDao;
@@ -115,6 +116,14 @@ public class ContextListner implements ServletContextListener {
 		context.setAttribute(REQUESTS_DAO_ATTR, requestsDao);
 		RequestsService requestsService = new MySqlRequestsService(requestsDao, transactionManager);
 		context.setAttribute(REQUESTS_SERVICE_ATTR, requestsService);
+		//CommandContainer commandContainer = new CommandContainer(commands);
+		
+		
+		
+		
 	}
+	
+	
+	
 
 }

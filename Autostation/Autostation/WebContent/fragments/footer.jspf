@@ -1,0 +1,8 @@
+<%@ page pageEncoding="UTF-8"%>
+<div class="text-center">
+<footer>
+	<a href="?language=en">English</a>
+	<a href="?language=ua">Українська</a>
+	<a href="?language=ru">Русский</a>
+</footer>
+</div>

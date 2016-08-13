@@ -38,26 +38,15 @@ public class MySqlRolesDao implements RolesDao {
 			try {
 				connection = DbConnector.getConnection();
 				stmt = connection.prepareStatement(INSERT_QUERY);
-				stmt.setString(1, object.getRoleType().toString().toUpperCase());
-				stmt.setInt(2, object.getUserId());
+				fillRolesObject(stmt, object, false);
 				stmt.executeUpdate();
-				stmt.close();
 				return object;
 
 			} catch (SQLException e) {
 				System.err.println(e.getMessage());
 				return null;
 			} finally {
-				try {
-					if (stmt != null) {
-						stmt.close();
-					}
-					if (connection != null) {
-						connection.close();
-					}
-				} catch (SQLException | NullPointerException e1) {
-					e1.printStackTrace();
-				}
+				DbConnector.close(connection, stmt);
 			}
 		} else {
 			return null;
@@ -86,16 +75,7 @@ public class MySqlRolesDao implements RolesDao {
 				System.err.println(e.getMessage());
 				return 0;
 			} finally {
-				try {
-					if (stmt != null) {
-						stmt.close();
-					}
-					if (connection != null) {
-						connection.close();
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
+				DbConnector.close(connection, stmt);
 			}
 		} else {
 			return 0;
@@ -130,27 +110,13 @@ public class MySqlRolesDao implements RolesDao {
 			stmt = connection.prepareStatement(SELECT_QUERY);
 			rs = stmt.executeQuery();
 			while (rs.next()) {
-				Roles role = new Roles();
-				role.setIdRole(rs.getInt(1));
-				role.setRoleType(RolesType.valueOf(rs.getString(2)));
-				role.setUserId(rs.getInt(3));
-				allRoles.add(role);
+				allRoles.add(buildRole(rs));
 			}
 
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		} finally {
-			try {
-				if (stmt != null) {
-					stmt.close();
-				}
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+			DbConnector.close(connection, stmt);
 		}
 		return allRoles;
 
@@ -168,6 +134,19 @@ public class MySqlRolesDao implements RolesDao {
 		} catch (SQLException e) {
 
 		}
+	}
+
+	private Roles buildRole(ResultSet rs) {
+		try {
+			Roles role = new Roles();
+			role.setIdRole(rs.getInt(1));
+			role.setRoleType(RolesType.valueOf(rs.getString(2)));
+			role.setUserId(rs.getInt(3));
+			return role;
+		} catch (SQLException e) {
+
+		}
+		return null;
 	}
 
 }

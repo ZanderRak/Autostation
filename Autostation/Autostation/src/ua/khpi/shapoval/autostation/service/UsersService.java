@@ -15,7 +15,7 @@ public interface UsersService {
 
 	public Users insert(Users object);
 
-	public int update(int idObject, Users user);
+	public int update(Users user);
 
 	public int delete(int idObject);
 

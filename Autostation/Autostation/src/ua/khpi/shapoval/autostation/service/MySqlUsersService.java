@@ -15,51 +15,42 @@ import ua.khpi.shapoval.db.TransactionManager;
  */
 public class MySqlUsersService implements UsersService {
 
-	private UsersDao usersDAO;
+	private UsersDao usersDao;
 	private TransactionManager transactionManager;
 
 	public MySqlUsersService(UsersDao usersDao, TransactionManager transactionManager) {
-		this.usersDAO = usersDao;
+		this.usersDao = usersDao;
 		this.transactionManager = transactionManager;
 	}
 
 	@Override
 	public Users insert(Users object) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.transactionManager.execute(() -> this.usersDao.insert(object));
 	}
 
 	@Override
-	public int update(int idObject, Users user) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int update(Users user) {
+		return this.transactionManager.execute(() -> this.usersDao.update(user));
 	}
 
 	@Override
 	public int delete(int idObject) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.transactionManager.execute(() -> this.usersDao.delete(idObject));
 	}
 
 	@Override
 	public List<Users> select() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.transactionManager.execute(() -> this.usersDao.select());
 	}
 
 	@Override
 	public int getUserIdByLogin(String login) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.transactionManager.execute(()-> this.usersDao.getUserIdByLogin(login));
 	}
 
 	@Override
 	public String getUserRole(String login) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.transactionManager.execute(() -> this.usersDao.getUserRole(login));
 	}
-	
-	
-	
 
 }

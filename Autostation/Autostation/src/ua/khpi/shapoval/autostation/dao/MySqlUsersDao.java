@@ -41,7 +41,9 @@ public class MySqlUsersDao implements UsersDao {
 	public Users insert(Users object) {
 		if (object != null) {
 			PreparedStatement stmt = null;
-			try (Connection connection = DbConnector.getConnection()) {
+			Connection connection = null;
+			try {
+				connection = DbConnector.getConnection();
 				stmt = connection.prepareStatement(INSERT_QUERY);
 				fillUserObject(stmt, object, false);
 				stmt.executeUpdate();
@@ -53,13 +55,7 @@ public class MySqlUsersDao implements UsersDao {
 
 				return null;
 			} finally {
-				try {
-					if (stmt != null) {
-						stmt.close();
-					}
-				} catch (SQLException  e1) {
-					e1.printStackTrace();
-				}
+				DbConnector.close(connection, stmt);
 			}
 		} else {
 			return null;
@@ -86,16 +82,7 @@ public class MySqlUsersDao implements UsersDao {
 				System.err.println(e.getMessage());
 				return 0;
 			} finally {
-				try {
-					if (stmt != null) {
-						stmt.close();
-					}
-					if (connection != null) {
-						connection.close();
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
+				DbConnector.close(connection, stmt);
 			}
 		} else {
 			return 0;
@@ -121,16 +108,7 @@ public class MySqlUsersDao implements UsersDao {
 				System.err.println(e.getMessage());
 				return 0;
 			} finally {
-				try {
-					if (stmt != null) {
-						stmt.close();
-					}
-					if (connection != null) {
-						connection.close();
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
+				DbConnector.close(connection, stmt);
 			}
 		} else {
 			return 0;
@@ -165,17 +143,7 @@ public class MySqlUsersDao implements UsersDao {
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		} finally {
-			try {
-				if (stmt != null) {
-					stmt.close();
-				}
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+			DbConnector.close(connection, stmt);
 		}
 		return allUsers;
 
@@ -206,18 +174,7 @@ public class MySqlUsersDao implements UsersDao {
 			System.err.println(e.getMessage());
 			return 0;
 		} finally {
-
-			try {
-				if (stmt != null) {
-					stmt.close();
-				}
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+			DbConnector.close(connection, stmt, rs);
 		}
 		return 0;
 	}
@@ -246,18 +203,7 @@ public class MySqlUsersDao implements UsersDao {
 			System.err.println(e.getMessage());
 			return "null";
 		} finally {
-
-			try {
-				if (stmt != null) {
-					stmt.close();
-				}
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+			DbConnector.close(connection, stmt, rs);
 		}
 		return "null";
 
@@ -279,7 +225,5 @@ public class MySqlUsersDao implements UsersDao {
 			e.printStackTrace();
 		}
 	}
-
-	
 
 }

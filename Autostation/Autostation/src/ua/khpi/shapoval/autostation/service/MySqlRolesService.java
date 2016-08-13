@@ -25,26 +25,22 @@ public class MySqlRolesService implements RolesService {
 
 	@Override
 	public Roles insert(Roles object) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.transactionManager.execute(() -> this.rolesDao.insert(object));
 	}
 
 	@Override
-	public int update(int idRole, Roles role) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int update(Roles role) {
+		return this.transactionManager.execute(() -> this.rolesDao.update(role));
 	}
 
 	@Override
 	public int delete(int idObject) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.transactionManager.execute(() -> this.rolesDao.delete(idObject));
 	}
 
 	@Override
 	public List<Roles> select() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.transactionManager.execute(() -> this.rolesDao.select());
 	}
 
 }

@@ -7,7 +7,6 @@ import java.util.List;
 
 import ua.khpi.shapoval.autostation.dao.CarsDao;
 import ua.khpi.shapoval.autostation.model.Cars;
-import ua.khpi.shapoval.db.Transaction;
 import ua.khpi.shapoval.db.TransactionManager;
 
 /**

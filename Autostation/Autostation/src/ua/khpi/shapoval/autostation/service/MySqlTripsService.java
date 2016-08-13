@@ -32,8 +32,7 @@ public class MySqlTripsService implements TripsService {
 
 	@Override
 	public int update(Trips trip) {
-
-		return 0;
+		return this.transactionManager.execute(() -> this.tripsDao.update(trip));
 	}
 
 	@Override
@@ -48,9 +47,9 @@ public class MySqlTripsService implements TripsService {
 
 	@Override
 	public List<Trips> sortByTripIdDirectOrder() {
-		
+
 		return this.transactionManager.execute(() -> this.tripsDao.sortByTripIdDirectOrder());
-		
+
 	}
 
 	@Override

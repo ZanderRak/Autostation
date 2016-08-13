@@ -13,7 +13,7 @@ import ua.khpi.shapoval.autostation.model.Roles;
  */
 public interface RolesService {
 	public Roles insert(Roles object);
-	public int update(int idRole, Roles role);
+	public int update(Roles role);
 	public int delete(int idObject);
 	public List<Roles> select();
 	

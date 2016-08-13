@@ -45,22 +45,11 @@ public class MySqlCarsDao implements CarsDao {
 				fillCarObject(stmt, object, false);
 				stmt.executeUpdate();
 				return object;
-
 			} catch (SQLException e) {
 				System.err.println(e.getMessage());
-
 				return null;
 			} finally {
-				try {
-					if (stmt != null) {
-						stmt.close();
-					}
-					if (connection != null) {
-						connection.close();
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
+				DbConnector.close(connection, stmt);
 			}
 		} else {
 			return null;
@@ -81,7 +70,7 @@ public class MySqlCarsDao implements CarsDao {
 			Connection connection = null;
 			try {
 				connection = DbConnector.getConnection();
-				stmt=connection.prepareStatement(UPDATE_QUERY);
+				stmt = connection.prepareStatement(UPDATE_QUERY);
 				fillCarObject(stmt, cars, true);
 				return stmt.executeUpdate();
 
@@ -89,16 +78,7 @@ public class MySqlCarsDao implements CarsDao {
 				System.err.println(e.getMessage());
 				return 0;
 			} finally {
-				try {
-					if (stmt != null) {
-						stmt.close();
-					}
-					if (connection != null) {
-						connection.close();
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
+				DbConnector.close(connection, stmt);
 			}
 		} else {
 			return 0;
@@ -125,16 +105,7 @@ public class MySqlCarsDao implements CarsDao {
 				System.err.println(e.getMessage());
 				return 0;
 			} finally {
-				try {
-					if (stmt != null) {
-						stmt.close();
-					}
-					if (connection != null) {
-						connection.close();
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
+				DbConnector.close(connection, stmt);
 			}
 		}
 		return 0;
@@ -169,17 +140,7 @@ public class MySqlCarsDao implements CarsDao {
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		} finally {
-			try {
-				if (stmt != null) {
-					stmt.close();
-				}
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+			DbConnector.close(connection, stmt, rs);
 		}
 		return allCars;
 
@@ -197,8 +158,6 @@ public class MySqlCarsDao implements CarsDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	
 
 	private void fillCarObject(PreparedStatement preparedStatement, Cars car, boolean isUpdate) {
 

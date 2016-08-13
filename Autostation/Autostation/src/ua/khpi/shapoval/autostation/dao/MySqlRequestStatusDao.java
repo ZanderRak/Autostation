@@ -48,20 +48,10 @@ public class MySqlRequestStatusDao implements RequestStatusDao {
 
 			} catch (SQLException e) {
 				System.err.println(e.getMessage());
-
 				return null;
 			} finally {
-				try {
-					if (stmt != null) {
-						stmt.close();
-					}
-					if (connection != null) {
-						connection.close();
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
+				DbConnector.close(connection, stmt);
 				}
-			}
 		} else {
 			return null;
 		}
@@ -89,16 +79,7 @@ public class MySqlRequestStatusDao implements RequestStatusDao {
 				System.err.println(e.getMessage());
 				return 0;
 			} finally {
-				try {
-					if (stmt != null) {
-						stmt.close();
-					}
-					if (connection != null) {
-						connection.close();
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
+				DbConnector.close(connection, stmt);
 			}
 		} else {
 			return 0;
@@ -125,16 +106,7 @@ public class MySqlRequestStatusDao implements RequestStatusDao {
 				System.err.println(e.getMessage());
 				return 0;
 			} finally {
-				try {
-					if (stmt != null) {
-						stmt.close();
-					}
-					if (connection != null) {
-						connection.close();
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
+				DbConnector.close(connection, stmt);
 			}
 		} else {
 			return 0;
@@ -167,17 +139,7 @@ public class MySqlRequestStatusDao implements RequestStatusDao {
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		} finally {
-			try {
-				if (stmt != null) {
-					stmt.close();
-				}
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+				DbConnector.close(connection, stmt, rs);
 		}
 		return allRequestStatus;
 
