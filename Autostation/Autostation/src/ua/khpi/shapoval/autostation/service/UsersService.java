@@ -24,5 +24,7 @@ public interface UsersService {
 	public int getUserIdByLogin(String login);
 
 	public String getUserRole(String login);
+	
+	public Users getUserByLogin(String login);
 
 }

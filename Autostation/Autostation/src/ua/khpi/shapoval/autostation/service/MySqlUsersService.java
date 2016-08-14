@@ -53,4 +53,9 @@ public class MySqlUsersService implements UsersService {
 		return this.transactionManager.execute(() -> this.usersDao.getUserRole(login));
 	}
 
+	@Override
+	public Users getUserByLogin(String login) {
+		return this.transactionManager.execute(()->this.usersDao.getUserByLogin(login));
+	}
+
 }

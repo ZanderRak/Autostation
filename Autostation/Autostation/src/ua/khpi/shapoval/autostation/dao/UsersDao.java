@@ -42,4 +42,14 @@ public interface UsersDao extends Dao<Users> {
 	 */
 	public String getUserRole(String login);
 
+	/**
+	 * Get user by login.
+	 * 
+	 * 
+	 * @param login
+	 *            user's login
+	 * @return User object of user exists, null if not
+	 */
+	public Users getUserByLogin(String login);
+
 }

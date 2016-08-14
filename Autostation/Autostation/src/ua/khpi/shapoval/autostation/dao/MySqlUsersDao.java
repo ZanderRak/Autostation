@@ -31,6 +31,8 @@ public class MySqlUsersDao implements UsersDao {
 
 	private static final String GET_USER_ROLE_BY_LOGIN = "SELECT roles.roleType FROM roles WHERE roles.userId=(SELECT users.idUser FROM users WHERE users.login=?)";
 
+	private static final String SELECT_USER_BY_LOGIN = "SELECT*FROM users WHERE users.login=?";
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -132,12 +134,7 @@ public class MySqlUsersDao implements UsersDao {
 			stmt = connection.prepareStatement(SELECT_QUERY);
 			rs = stmt.executeQuery();
 			while (rs.next()) {
-				Users user = new Users();
-				user.setIdUser(rs.getInt(1));
-				user.setLogin(rs.getString(2));
-				user.setName(rs.getString(3));
-				user.setSurname(rs.getString(4));
-				allUsers.add(user);
+				allUsers.add(buildUserObject(rs));
 			}
 
 		} catch (SQLException e) {
@@ -209,6 +206,28 @@ public class MySqlUsersDao implements UsersDao {
 
 	}
 
+	@Override
+	public Users getUserByLogin(String login) {
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		List<Users> allUsers = new ArrayList<>();
+		ResultSet rs = null;
+		try {
+			connection = DbConnector.getConnection();
+			stmt = connection.prepareStatement(SELECT_USER_BY_LOGIN);
+			rs = stmt.executeQuery();
+			while (rs.next()) {
+				return buildUserObject(rs);
+			}
+
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+		} finally {
+			DbConnector.close(connection, stmt);
+		}
+		return null;
+	}
+
 	private void fillUserObject(PreparedStatement preparedStatement, Users user, boolean isUpdate) {
 		int index = 1;
 		try {
@@ -224,6 +243,20 @@ public class MySqlUsersDao implements UsersDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private Users buildUserObject(ResultSet rs) {
+		Users user = new Users();
+		try {
+			user.setIdUser(rs.getInt(1));
+			user.setLogin(rs.getString(2));
+			user.setName(rs.getString(3));
+			user.setSurname(rs.getString(4));
+		} catch (SQLException e) {
+			return null;
+		}
+		return user;
+
 	}
 
 }

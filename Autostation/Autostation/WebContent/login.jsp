@@ -6,6 +6,7 @@
 	scope="session" />
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="ua.khpi.shapoval.i18n.lang" />
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,8 +19,8 @@
 	rel="stylesheet" type="text/css">
 <link href="<c:url value="/resources/css/styles.css"/>" rel="stylesheet"
 	type="text/css">
-<script src="<c:url value="/resources/Jquery/jquery-2.1.4.min.js"/>"
-	type="text/javascript"></script>
+<script type="text/javascript"
+	src="<c:url value="/resources/Jquery/jquery-2.1.4.min.js"/>"></script>
 
 </head>
 <body>
