@@ -33,6 +33,9 @@
 			<strong><fmt:message key="profile.title" /></strong>
 		</h3>
 	</div>
-
+<h3><c:out value="${sessionScope.userInfo.name}"></c:out> </h3>
+<h3><c:out value="${sessionScope.userInfo.surname}"></c:out> </h3>
 </body>
+<script src="<c:url value="/resources/bootstrap/bootstrap.min.js"/>"
+	type="text/javascript"></script>
 </html>

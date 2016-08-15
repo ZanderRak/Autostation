@@ -6,10 +6,5 @@
 	<ResourceLink name="jdbc/autopark" global="jdbc/autopark"
 
 		type="javax.sql.DataSource" />
-
-<Realm className="org.apache.catalina.realm.JAASRealm" appName="JaasExample"
-		userClassNames="ua.khpi.shapoval.jaas.UserPrincipal" roleClassNames="ua.khpi.shapoval.jaas.RolePrincipal" />
-
-
 </Context>
 

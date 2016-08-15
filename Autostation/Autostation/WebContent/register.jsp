@@ -32,7 +32,7 @@
 		</h3>
 	</div>
 	<div class="col-xs-4 centerBlock text-center">
-		<form action="">
+		<form action="/Autostation/controller" method="POST">
 			<div class="form-group">
 				<label class="control-label"><fmt:message
 						key="registration.newLogin" /> </label> <input
@@ -59,7 +59,7 @@
 			</div>
 			<div class="form-group">
 				<label class="control-label"><fmt:message
-						key="registration.newType" /> </label> <select name="role" id="name"
+						key="registration.newType" /> </label> <select name="role" id="role"
 					class="form-control input-sm">
 					<option value="1"><fmt:message key="registration.admin" /></option>
 					<option value="2"><fmt:message
@@ -68,10 +68,12 @@
 				</select>
 			</div>
 			<div class="form-group">
+				<input type="hidden" name="command" value="register">
 				<button type="submit" class="btn btn-success">
 					<fmt:message key="registration.registrButton" />
 				</button>
 			</div>
+
 		</form>
 	</div>
 	<br>

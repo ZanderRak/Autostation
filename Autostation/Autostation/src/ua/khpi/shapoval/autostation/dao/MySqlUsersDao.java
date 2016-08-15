@@ -19,13 +19,13 @@ import ua.khpi.shapoval.db.DbConnector;
  */
 public class MySqlUsersDao implements UsersDao {
 
-	private static final String INSERT_QUERY = "INSERT INTO `users`(login, password, name, surname)"
-			+ " values (?,?,?,?,?);";
+	private static final String INSERT_QUERY = "INSERT INTO `users`(login, password, passwordSalt, name, surname)"
+			+ " value (?,?,?,?,?);";
 	private static final String UPDATE_QUERY = "UPDATE `users` SET login = ?, password = ?, name = ?, surname = ? WHERE idUser=?";
 
 	private static final String DELETE_QUERY = "DELETE FROM users WHERE idUser=?";
 
-	private static final String SELECT_QUERY = "SELECT users.idUser, users.login, users.name, users.surname FROM users;";
+	private static final String SELECT_QUERY = "SELECT*FROM users;";
 
 	private static final String SELECT_USER_ID_BY_LOGIN = "SELECT users.idUser FROM users where users.login = ?";
 
@@ -49,7 +49,7 @@ public class MySqlUsersDao implements UsersDao {
 				stmt = connection.prepareStatement(INSERT_QUERY);
 				fillUserObject(stmt, object, false);
 				stmt.executeUpdate();
-				stmt.close();
+
 				return object;
 
 			} catch (SQLException e) {
@@ -210,11 +210,11 @@ public class MySqlUsersDao implements UsersDao {
 	public Users getUserByLogin(String login) {
 		Connection connection = null;
 		PreparedStatement stmt = null;
-		List<Users> allUsers = new ArrayList<>();
 		ResultSet rs = null;
 		try {
 			connection = DbConnector.getConnection();
 			stmt = connection.prepareStatement(SELECT_USER_BY_LOGIN);
+			stmt.setString(1, login);
 			rs = stmt.executeQuery();
 			while (rs.next()) {
 				return buildUserObject(rs);
@@ -229,15 +229,15 @@ public class MySqlUsersDao implements UsersDao {
 	}
 
 	private void fillUserObject(PreparedStatement preparedStatement, Users user, boolean isUpdate) {
-		int index = 1;
-		try {
 
-			preparedStatement.setString(index, user.getLogin());
-			preparedStatement.setString(index++, user.getPassword());
-			preparedStatement.setString(index++, user.getName());
-			preparedStatement.setString(index++, user.getSurname());
+		try {
+			preparedStatement.setString(1, user.getLogin());
+			preparedStatement.setString(2, user.getPassword());
+			preparedStatement.setString(3, "salt");
+			preparedStatement.setString(4, user.getName());
+			preparedStatement.setString(5, user.getSurname());
 			if (isUpdate) {
-				preparedStatement.setInt(index++, user.getIdUser());
+				preparedStatement.setInt(6, user.getIdUser());
 			}
 
 		} catch (SQLException e) {
@@ -248,14 +248,19 @@ public class MySqlUsersDao implements UsersDao {
 	private Users buildUserObject(ResultSet rs) {
 		Users user = new Users();
 		try {
+			System.out.println("build object");
+			
 			user.setIdUser(rs.getInt(1));
 			user.setLogin(rs.getString(2));
-			user.setName(rs.getString(3));
-			user.setSurname(rs.getString(4));
+			user.setPassword(rs.getString(3));
+			user.setPasswordSalt(rs.getString(4));
+			user.setName(rs.getString(5));
+			user.setSurname(rs.getString(6));
+			System.out.println("object built");
+			return user;
 		} catch (SQLException e) {
 			return null;
 		}
-		return user;
 
 	}
 

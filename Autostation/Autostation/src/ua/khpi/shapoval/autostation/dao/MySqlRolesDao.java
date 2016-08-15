@@ -124,12 +124,12 @@ public class MySqlRolesDao implements RolesDao {
 
 	private void fillRolesObject(PreparedStatement preparedStatement, Roles role, boolean isUpdate) {
 
-		int index = 1;
+	
 		try {
-			preparedStatement.setString(index, role.getRoleType().toString().toUpperCase());
-			preparedStatement.setInt(index++, role.getUserId());
+			preparedStatement.setString(1, role.getRoleType().toString().toUpperCase());
+			preparedStatement.setInt(2, role.getUserId());
 			if (isUpdate) {
-				preparedStatement.setInt(index++, role.getIdRole());
+				preparedStatement.setInt(3, role.getIdRole());
 			}
 		} catch (SQLException e) {
 

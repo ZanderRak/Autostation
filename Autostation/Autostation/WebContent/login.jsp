@@ -99,7 +99,7 @@
 				</div>
 				<div class="modal-body">
 					<div class="container">
-						<form method="POST" action="">
+						<form method="POST" action="/Autostation/controller">
 							<div class="form-group col-md-4 text-center">
 								<label class="control-label"><fmt:message
 										key="login.loginLabel" /></label> <input
@@ -108,7 +108,11 @@
 										key="login.passwordLabel" /></label><input
 									class="form-control input-sm" type="password" id="password"
 									name="password" ng-model="password" required />
+									<input type="hidden" name="command" value="login"/>
 							</div>
+							<button type="submit" class="btn btn-primary">
+								<fmt:message key="login.login" />
+							</button>
 						</form>
 					</div>
 				</div>
@@ -116,12 +120,14 @@
 					<button type="button" class="btn btn-default" data-dismiss="modal">
 						<fmt:message key="login.close" />
 					</button>
-					<button type="button" class="btn btn-primary">
-						<fmt:message key="login.login" />
-					</button>
+
+
 				</div>
+
 			</div>
+
 		</div>
+
 	</div>
 
 	<div id="footer">
